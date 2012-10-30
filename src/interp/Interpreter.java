@@ -13,11 +13,13 @@ public class Interpreter {
 
         while ((root = parser.list()) != null) {
 
+            /*
             Visitor e = new Evaluator();
             VObject vo = (VObject) root.accept(e); 
             System.out.println(vo.evaluate());
             System.out.println();
-            
+            */
+
             System.out.println("AST:");
             Visitor astPrinter = new ASTPrinter(System.out);
             root.accept(astPrinter);

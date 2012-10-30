@@ -29,17 +29,10 @@ public class Evaluator implements Visitor {
 
     @Override
     public VObject visit(SymbolNode node) {
-        /*
-        String symbol = node.getSymbol();
-        Object value = this.currentEnvironment.lookUp(symbol);
+        String id = node.getId();
 
-        if (value == null)
-            throw new Exception("Unbound identifier '" + symbol + "'.");
-
-        return value;
-        */
-
-        return null;
+        // TODO: throw exception if not in env
+        return this.currentEnv.lookUp(id);
     }
 
     @Override
@@ -49,6 +42,11 @@ public class Evaluator implements Visitor {
 
     @Override
     public VObject visit(LambdaNode node) {
+        return null;
+    }
+
+    @Override
+    public VObject visit(ListNode node) {
         return null;
     }
 

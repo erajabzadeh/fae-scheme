@@ -9,9 +9,9 @@ public class LetNode extends SimpleNode {
         this.children.add(body);
     }
 
-	@Override
-	public Object accept(Visitor visitor) {
-		return visitor.visit(this);
-	}
+    @Override
+    public Object accept(Visitor visitor) {
+        return visitor.visit(this);
+    }
 
 }

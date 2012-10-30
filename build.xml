@@ -26,8 +26,8 @@
     <target name="main" depends="compile" />
 
     <target name="run" depends="main">
-        <java classname="parser.Parser"
-            classpath="${bin.classpath}"/>
+        <java classname="interp.Interpreter"
+            classpath="bin"/>
     </target>
 
     <path id="test.classpath">

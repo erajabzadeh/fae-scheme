@@ -51,21 +51,22 @@ ASTNode list():
 {
     ASTNode  node = null, t;
 }
-{
-  (
-    <LPAR>
+{ 
     (
-        node = list()
-        | node = add()
-        | node = let()    
-        | node = lambda() 
-        | node = atom()   
+    (
+        <LPAR>
+        (
+              node = list()
+            | node = add()
+            | node = let()    
+            | node = lambda() 
+            | node = atom()   
+        )*
+        <RPAR>
     )
-    <RPAR>
-    { return node; }
-  )
-  |
-  <EOF> { return null; }
+    | <EOF>
+    )
+  { return node; }
 }
 
 ASTNode add():
@@ -94,15 +95,45 @@ ASTNode add():
 ASTNode let():
 {
     ASTNode node,
-            bindings,
-            body;
+            bindings = new ListNode(),
+            body,
+            t;
 }
 {
     <LET>
-    bindings = list()
-    body     = list()
+    <LPAR>
+    (
+        t = binding() { bindings.addChild(t); }
+    )*
+    <RPAR>
+    (
+        body = list()
+      | body = atom()
+    )
     {
         return new LetNode(bindings, body);
+    }
+}
+
+ASTNode binding():
+{
+    ASTNode node = new ListNode(),
+            expr;
+    Token   token;
+}
+{
+    <LPAR>
+    token = <SYMBOL> { node.addChild(new SymbolNode(token.image)); }
+    (
+        expr = list()
+      | expr = atom()
+    )
+    {
+        node.addChild(expr);
+    }
+    <RPAR>
+    {
+        return node;
     }
 }
 

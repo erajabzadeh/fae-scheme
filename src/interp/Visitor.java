@@ -8,5 +8,6 @@ public interface Visitor {
     Object visit(SymbolNode   node);
     Object visit(LetNode      node);
     Object visit(LambdaNode   node);
+    Object visit(ListNode     node);
 }
 
