@@ -7,8 +7,4 @@ public class AdditionNode extends SimpleNode implements Visitable {
 
     public AdditionNode () {}
 
-    @Override
-    public Object accept(final Visitor visitor) {
-        return visitor.visit(this);
-    }
 }

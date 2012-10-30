@@ -1,5 +1,7 @@
 package ast;
 
+import interp.Visitor;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -7,6 +9,11 @@ public class SimpleNode implements ASTNode {
 
     public SimpleNode() {
         children = new ArrayList<ASTNode>();
+    }
+
+    @Override
+    public Object accept(final Visitor visitor) {
+        return visitor.visit(this);
     }
 
     @Override

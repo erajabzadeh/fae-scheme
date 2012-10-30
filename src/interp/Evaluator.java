@@ -5,17 +5,30 @@ import ast.*;
 public class Evaluator implements Visitor {
 
     @Override
-    public Object visit(AdditionNode node) {
-        return null;
+    public VObject visit(final AdditionNode node) {
+        return new ClosureV (node.toString(), null, new Environment(this.currentEnv)) {
+
+            @Override
+            public Object evaluate() {
+                ASTNode leftNode  = node.getChildAt(0),
+                        rightNode = node.getChildAt(1);
+
+                Object lhs = ((VObject) leftNode.accept(Evaluator.this)).evaluate(),
+                       rhs = ((VObject) rightNode.accept(Evaluator.this)).evaluate();
+ 
+                return (Integer) lhs + (Integer) rhs;
+            }
+
+        };
     }
 
     @Override
-    public Object visit(IntegerNode node) {
-        return new NumV("", node.getValue());
+    public VObject visit(IntegerNode node) {
+        return new NumV(null, node.getValue());
     }
 
     @Override
-    public Object visit(SymbolNode node) {
+    public VObject visit(SymbolNode node) {
         /*
         String symbol = node.getSymbol();
         Object value = this.currentEnvironment.lookUp(symbol);
@@ -30,17 +43,19 @@ public class Evaluator implements Visitor {
     }
 
     @Override
-    public Object visit(LetNode node) {
+    public VObject visit(LetNode node) {
         return null;
     }
 
     @Override
-    public Object visit(LambdaNode node) {
+    public VObject visit(LambdaNode node) {
         return null;
     }
 
     @Override
-    public Object visit(SimpleNode node) {
+    public VObject visit(SimpleNode node) {
         return null;
     }
+
+    private Environment currentEnv;
 }

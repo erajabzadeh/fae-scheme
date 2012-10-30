@@ -8,7 +8,7 @@ public class NumV implements VObject {
     }
 
     @Override
-    public Object evaluate(final Environment env) {
+    public Object evaluate() {
         return this.value;
     }
 
