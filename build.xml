@@ -1,0 +1,53 @@
+<project name="compile with Lisp syntax" default="main">
+    <property environment="env"/>
+
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+
+    <path id="bin.classpath">
+        <pathelement location="bin"/>
+    </path>
+
+    <target name="parser">
+        <mkdir dir="src/parser"/>
+        <javacc target="grammar/Parser.jj"
+            javacchome="${env.JAVACC_HOME}"
+            outputdirectory="src/parser"/>
+    </target>
+
+    <target name="compile" depends="parser">
+        <mkdir dir="bin"/>
+
+        <javac srcdir="src" destdir="bin"
+            includeantruntime="false"/>
+    </target>
+
+    <target name="main" depends="compile" />
+
+    <target name="run" depends="main">
+        <java classname="parser.Parser"
+            classpath="${bin.classpath}"/>
+    </target>
+
+    <path id="test.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="/usr/share/java/junit.jar"/>
+    </path>
+
+    <target name="buildtest">
+        <mkdir dir="bin"/>
+        <javac srcdir="test" destdir="bin"/>
+    </target>
+
+    <target name="test" depends="clean,compile,buildtest">
+        <junit fork="yes" haltonfailure="yes">
+            <classpath refid="test.classpath"/>
+            <formatter type="brief" usefile="false" />
+
+            <batchtest fork="yes">
+                <fileset dir="./test" includes="*Test.java"/>
+            </batchtest>
+        </junit>
+    </target>
+</project>

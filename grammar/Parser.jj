@@ -1,0 +1,103 @@
+PARSER_BEGIN(Parser)
+package parser;
+
+import ast.*;
+
+public class Parser {}
+
+PARSER_END(Parser)
+
+SKIP:
+{
+    " "
+  | "\t"
+  | "\n"
+  | "\r"
+  | <"%" (~["\n","\r"])* ("\n"|"\r")>
+}
+
+TOKEN:
+{
+      <LPAR    : "(">
+    | <RPAR    : ")">
+    | <INTEGER : ("-")? (["0"-"9"])+>
+    | <LAMBDA  : "lambda">
+    | <LET     : "let">
+    | <ADD     : "+">
+    | <SYMBOL  : ["a"-"z", "A"-"Z", "~", "`", "!", "@", "#", "$", "/", "^", "&",
+                "*", "_", "-", "=", "+", "{", "}", "[", "]", "|", "\\", ":",
+                ";", "<", ">", ",", ".", "?", "'", "\""](["a"-"z", "A"-"Z",
+                "0"-"9", "~", "`", "!", "@", "#", "$", "/", "^", "&", "*", "_",
+                "-", "=", "+", "{", "}", "[", "]", "|", "\\", ":", ";", "<",
+                ">", ",", ".", "?", "'", "\""])*>
+}
+
+TOKEN:
+{
+    <ERROR : ~[]>
+}
+
+ASTNode atom():
+{
+    Token token;
+    ASTNode node;
+}
+{
+    (
+      token = <INTEGER> { node = new IntegerNode(token.image); }
+    | token = <SYMBOL>  { node = new SymbolNode(token.image); }
+    | <ADD>             { node = new AdditionNode(); }
+    )
+    {
+        return node;
+    }
+}
+
+ASTNode list():
+{
+    ASTNode  node = null;
+    SimpleNode listNode = new SimpleNode();
+}
+{
+  <LPAR>
+  (
+      node = list()   { listNode.addChild(node); }
+    | node = let()    { listNode.addChild(node); }
+    | node = lambda() { listNode.addChild(node); }
+    | node = atom()   { listNode.addChild(node); }
+  )*
+  <RPAR>
+  {
+    return listNode;
+  }
+}
+
+ASTNode let():
+{
+    ASTNode node,
+            bindings,
+            body;
+}
+{
+    <LET>
+    bindings = list()
+    body     = list()
+    {
+        return new LetNode(bindings, body);
+    }
+}
+
+ASTNode lambda():
+{
+    ASTNode node,
+            params,
+            body;
+}
+{
+    <LAMBDA>
+    params  = list()
+    body    = list()
+    {
+        return new LambdaNode(params, body);
+    }
+}
