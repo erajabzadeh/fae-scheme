@@ -37,7 +37,27 @@ public class Evaluator implements Visitor {
 
     @Override
     public VObject visit(LetNode node) {
-        return null;
+
+        // save the environment
+        Environment e = new Environment(this.currentEnv);
+
+        System.out.println("ENV before: " + e);
+
+        for (ASTNode child : node.getBindings().getChildren()) {
+            this.currentEnv.putIn(
+                ((SymbolNode) child.getChildAt(0)).getId(),
+                (VObject) child.getChildAt(1).accept(this)
+            );
+        }
+
+        System.out.println("ENV: " + this.currentEnv);
+
+        VObject vo = (VObject) node.getBody().accept(this);
+
+        // restore the environment
+        this.currentEnv = e;
+
+        return vo;
     }
 
     @Override

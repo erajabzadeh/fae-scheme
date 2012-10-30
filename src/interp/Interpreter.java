@@ -13,18 +13,25 @@ public class Interpreter {
 
         while ((root = parser.list()) != null) {
 
-            /*
-            Visitor e = new Evaluator();
-            VObject vo = (VObject) root.accept(e); 
-            System.out.println(vo.evaluate());
-            System.out.println();
-            */
+            try {
+                Visitor e = new Evaluator();
+                VObject vo = (VObject) root.accept(e); 
+                System.out.println(vo.evaluate());
+                System.out.println();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
 
-            System.out.println("AST:");
-            Visitor astPrinter = new ASTPrinter(System.out);
-            root.accept(astPrinter);
-            System.out.println();
-            
+            try {
+                System.out.println("AST:");
+                Visitor astPrinter = new ASTPrinter(System.out);
+                root.accept(astPrinter);
+                System.out.println();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

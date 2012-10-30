@@ -20,5 +20,14 @@ public class Environment {
         return this.table.get(id);
     }
 
+    public void putIn(final String id, final VObject vo) {
+        this.table.put(id, vo);
+    }
+
+    @Override
+    public String toString() {
+        return table.toString();
+    }
+
     private Map<String, VObject> table;
 }

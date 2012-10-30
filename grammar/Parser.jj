@@ -139,14 +139,25 @@ ASTNode binding():
 
 ASTNode lambda():
 {
-    ASTNode node,
+    ASTNode t,
             params,
-            body;
+            body = null;
 }
 {
     <LAMBDA>
     params  = list()
-    body    = list()
+    (
+        t = list()
+        {
+            if (body == null)
+                body = new ListNode();
+            body.addChild(t);
+        }
+      | t = atom()
+        {
+            body = t;
+        }
+    )
     {
         return new LambdaNode(params, body);
     }
