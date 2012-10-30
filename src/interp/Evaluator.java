@@ -52,10 +52,5 @@ public class Evaluator implements Visitor {
         return null;
     }
 
-    @Override
-    public VObject visit(SimpleNode node) {
-        return null;
-    }
-
-    private Environment currentEnv;
+    private Environment currentEnv = new Environment();
 }

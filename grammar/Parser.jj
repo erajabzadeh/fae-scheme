@@ -24,12 +24,7 @@ TOKEN:
     | <LAMBDA  : "lambda">
     | <LET     : "let">
     | <ADD     : "+">
-    | <SYMBOL  : ["a"-"z", "A"-"Z", "~", "`", "!", "@", "#", "$", "/", "^", "&",
-                "*", "_", "-", "=", "+", "{", "}", "[", "]", "|", "\\", ":",
-                ";", "<", ">", ",", ".", "?", "'", "\""](["a"-"z", "A"-"Z",
-                "0"-"9", "~", "`", "!", "@", "#", "$", "/", "^", "&", "*", "_",
-                "-", "=", "+", "{", "}", "[", "]", "|", "\\", ":", ";", "<",
-                ">", ",", ".", "?", "'", "\""])*>
+    | <SYMBOL  : (["a"-"z", "A"-"Z"])*>
 }
 
 TOKEN:
@@ -46,7 +41,6 @@ ASTNode atom():
     (
       token = <INTEGER> { node = new IntegerNode(token.image); }
     | token = <SYMBOL>  { node = new SymbolNode(token.image); }
-    | <ADD>             { node = new AdditionNode(); }
     )
     {
         return node;
@@ -55,21 +49,46 @@ ASTNode atom():
 
 ASTNode list():
 {
-    ASTNode  node = null;
-    SimpleNode listNode = new SimpleNode();
+    ASTNode  node = null, t;
 }
 {
-  <LPAR>
   (
-      node = list()   { listNode.addChild(node); }
-    | node = let()    { listNode.addChild(node); }
-    | node = lambda() { listNode.addChild(node); }
-    | node = atom()   { listNode.addChild(node); }
-  )*
-  <RPAR>
-  {
-    return listNode;
-  }
+    <LPAR>
+    (
+        node = list()
+        | node = add()
+        | node = let()    
+        | node = lambda() 
+        | node = atom()   
+    )
+    <RPAR>
+    { return node; }
+  )
+  |
+  <EOF> { return null; }
+}
+
+ASTNode add():
+{
+    ASTNode node,
+            lhs,
+            rhs;
+}
+{
+    <ADD>
+    (
+    (
+      lhs = list()
+    | lhs = atom()
+    )
+    (
+      rhs = list()
+    | rhs = atom()
+    )
+    )
+    {
+        return new AdditionNode(lhs, rhs);
+    }
 }
 
 ASTNode let():

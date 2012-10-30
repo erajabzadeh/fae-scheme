@@ -12,6 +12,14 @@ public class NumV implements VObject {
         return this.value;
     }
 
-    private String  id;
+	public String getId() {
+		return id;
+	}
+
+	public Integer getValue() {
+		return value;
+	}
+ 
+	private String  id;
     private Integer value;
-}
+ }

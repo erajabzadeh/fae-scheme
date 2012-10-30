@@ -5,7 +5,7 @@ import java.util.*;
 public class Environment {
 
     public Environment () {
-        this ((Map<String, VObject>) null);
+        this.table = new HashMap<String, VObject>();
     }
 
     public Environment (final Environment env) {
