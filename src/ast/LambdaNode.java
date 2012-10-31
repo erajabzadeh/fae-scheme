@@ -9,9 +9,17 @@ public class LambdaNode extends SimpleNode {
         this.children.add(body);
     }
 
-	@Override
-	public Object accept(Visitor visitor) {
-		return visitor.visit(this);
-	}
+    public SymbolNode getParam() {
+        return (SymbolNode) this.getChildAt(0);
+    }
+
+    public ASTNode getBody() {
+        return this.getChildAt(1);
+    }
+
+    @Override
+    public Object accept(Visitor visitor) {
+        return visitor.visit(this);
+    }
 
 }

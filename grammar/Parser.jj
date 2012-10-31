@@ -49,24 +49,48 @@ ASTNode atom():
 
 ASTNode list():
 {
-    ASTNode  node = null, t;
+    ASTNode  node = null, t = null;
 }
 { 
     (
     (
         <LPAR>
         (
-              node = list()
+              node = app() 
             | node = add()
-            | node = let()    
+            | node = let()
             | node = lambda() 
-            | node = atom()   
-        )*
+        )
         <RPAR>
     )
     | <EOF>
     )
-  { return node; }
+  { return t == null ? node : t; }
+}
+
+ASTNode app():
+{
+    ASTNode node = new ListNode(),
+            f,
+            a;
+}
+{
+    (
+        (
+        f = list()
+        | f = atom()
+        )
+        {
+            node.addChild(f); { System.out.println("parser.app: " + f); }
+        }
+        (
+            a = list() { node.addChild(a); System.out.println("\t" + a); }
+          | a = atom() { node.addChild(a); System.out.println("\t" + a); }
+        )
+    )
+    {
+        return node;
+    }
 }
 
 ASTNode add():
@@ -145,7 +169,7 @@ ASTNode lambda():
 }
 {
     <LAMBDA>
-    params  = list()
+    <LPAR>params  = atom()<RPAR>
     (
         t = list()
         {

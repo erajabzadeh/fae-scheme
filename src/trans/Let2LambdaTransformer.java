@@ -39,10 +39,16 @@ public class Let2LambdaTransformer implements ASTTransformer {
 
     public static void main (String[] args) throws parser.ParseException {
         parser.Parser parser = new parser.Parser(System.in);
-
-        ASTNode root = new Let2LambdaTransformer().transform(parser.list());
-
         interp.Visitor astPrinter = new ast.ASTPrinter(System.out);
+        
+        ASTNode root = parser.list();
+
+        System.out.println("==before==");
+        root.accept(astPrinter);
+
+        root = new Let2LambdaTransformer().transform(root);
+
+        System.out.println("==after==");
         root.accept(astPrinter);
     }
 }

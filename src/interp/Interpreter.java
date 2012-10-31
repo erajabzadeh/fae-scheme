@@ -4,6 +4,8 @@ import parser.Parser;
 import parser.ParseException;
 import ast.ASTNode;
 import ast.ASTPrinter;
+import trans.ASTTransformer;
+import trans.Let2LambdaTransformer;
 
 public class Interpreter {
 
@@ -15,8 +17,10 @@ public class Interpreter {
 
             try {
                 Visitor e = new Evaluator();
+                ASTTransformer transformer = new Let2LambdaTransformer();
+                root = transformer.transform(root);
                 VObject vo = (VObject) root.accept(e); 
-                System.out.println(vo.evaluate(null));
+                System.out.println(vo.evaluate(new Environment()));
                 System.out.println();
             }
             catch (Exception e) {
