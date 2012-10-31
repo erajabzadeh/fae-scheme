@@ -16,7 +16,7 @@ public class Interpreter {
             try {
                 Visitor e = new Evaluator();
                 VObject vo = (VObject) root.accept(e); 
-                System.out.println(vo.evaluate());
+                System.out.println(vo.evaluate(null));
                 System.out.println();
             }
             catch (Exception e) {

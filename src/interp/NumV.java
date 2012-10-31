@@ -8,18 +8,18 @@ public class NumV implements VObject {
     }
 
     @Override
-    public Object evaluate() {
+    public Object evaluate(final Environment env) {
         return this.value;
     }
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public Integer getValue() {
-		return value;
-	}
- 
-	private String  id;
+    public Integer getValue() {
+        return value;
+    }
+
+    private String  id;
     private Integer value;
- }
+}

@@ -9,12 +9,14 @@ public class Evaluator implements Visitor {
         return new ClosureV (node.toString(), null, new Environment(this.currentEnv)) {
 
             @Override
-            public Object evaluate() {
-                ASTNode leftNode  = node.getChildAt(0),
-                        rightNode = node.getChildAt(1);
+            public Object evaluate(final Environment e) {
+                ASTNode lhsNode  = node.getChildAt(0),
+                        rhsNode = node.getChildAt(1);
 
-                Object lhs = ((VObject) leftNode.accept(Evaluator.this)).evaluate(),
-                       rhs = ((VObject) rightNode.accept(Evaluator.this)).evaluate();
+                System.out.println("ENV:" + this.getEnv());
+
+                Object lhs = ((VObject) lhsNode.accept(Evaluator.this)).evaluate(this.getEnv()),
+                       rhs = ((VObject) rhsNode.accept(Evaluator.this)).evaluate(this.getEnv());
  
                 return (Integer) lhs + (Integer) rhs;
             }
@@ -32,16 +34,13 @@ public class Evaluator implements Visitor {
         String id = node.getId();
 
         // TODO: throw exception if not in env
-        return this.currentEnv.lookUp(id);
+        VObject vo = this.currentEnv.lookUp(id);
+
+        return vo;
     }
 
     @Override
     public VObject visit(LetNode node) {
-
-        // save the environment
-        Environment e = new Environment(this.currentEnv);
-
-        System.out.println("ENV before: " + e);
 
         for (ASTNode child : node.getBindings().getChildren()) {
             this.currentEnv.putIn(
@@ -50,12 +49,7 @@ public class Evaluator implements Visitor {
             );
         }
 
-        System.out.println("ENV: " + this.currentEnv);
-
         VObject vo = (VObject) node.getBody().accept(this);
-
-        // restore the environment
-        this.currentEnv = e;
 
         return vo;
     }

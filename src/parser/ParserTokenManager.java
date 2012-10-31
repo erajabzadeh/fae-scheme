@@ -319,8 +319,8 @@ static final long[] jjtoSkip = {
 static protected SimpleCharStream input_stream;
 static private final int[] jjrounds = new int[6];
 static private final int[] jjstateSet = new int[12];
-private static final StringBuffer jjimage = new StringBuffer();
-private static StringBuffer image = jjimage;
+private static final StringBuilder jjimage = new StringBuilder();
+private static StringBuilder image = jjimage;
 private static int jjimageLen;
 private static int lengthOfMatch;
 static protected char curChar;

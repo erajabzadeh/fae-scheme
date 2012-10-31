@@ -9,8 +9,8 @@ public class LetNode extends SimpleNode {
         this.children.add(body);
     }
 
-    public ASTNode getBindings() {
-        return this.getChildAt(0);
+    public ListNode getBindings() {
+        return (ListNode) this.getChildAt(0);
     }
 
     public ASTNode getBody() {

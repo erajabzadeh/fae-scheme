@@ -53,7 +53,7 @@ public class ASTPrinter implements Visitor {
                 child.accept(this);
             this.outdent();
 
-            this.printer.println("]");
+            this.printer.println(this.dent + "]");
 
             return null;
         }
@@ -87,12 +87,13 @@ public class ASTPrinter implements Visitor {
         }
 
     private void indent() {
-        this.dent += "  ";
+        this.dent += this.indentString;
     }
 
     private void outdent() {
-        this.dent = this.dent.substring(2);
+        this.dent = this.dent.substring(this.indentString.length());
     }
 
-    private String dent = "";
+    private String indentString = "   ";
+    private String dent         = "";
 }
