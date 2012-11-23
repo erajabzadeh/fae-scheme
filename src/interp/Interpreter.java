@@ -21,10 +21,10 @@ public class Interpreter {
                 ASTTransformer transformer = new Let2LambdaTransformer();
                 root = transformer.transform(root);
                 
-                VObject vo = root.accept(e);
+                VObject vo = root.accept(e, new Environment());
 
                 System.out.println(">ANS:");
-                System.out.println(vo.evaluate(new Environment()));
+                System.out.println(vo);
                 System.out.println();
             }
             catch (Exception e) {
@@ -35,7 +35,7 @@ public class Interpreter {
                 System.out.println(">AST:");
                 
                 Visitor astPrinter = new ASTPrinter(System.out);
-                root.accept(astPrinter);
+                root.accept(astPrinter, null);
                 System.out.println();
             }
             catch (Exception e) {

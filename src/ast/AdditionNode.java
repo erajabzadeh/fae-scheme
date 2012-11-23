@@ -1,5 +1,6 @@
 package ast;
 
+import interp.Environment;
 import interp.VObject;
 import interp.Visitable;
 import interp.Visitor;
@@ -20,7 +21,7 @@ public class AdditionNode extends SimpleNode implements Visitable {
     }
 
 	@Override
-	public VObject accept(Visitor visitor) {
-		return visitor.visit(this);
+	public VObject accept(Visitor visitor, Environment e) {
+		return visitor.visit(this, e);
 	}
 }

@@ -9,89 +9,57 @@ import ast.*;
 public class Evaluator implements Visitor {
 
     @Override
-    public VObject visit(final AdditionNode node) {
-        return new ClosureV(
-        		node.toString(),
+    public VObject visit(final AdditionNode node, Environment e) {
+    	
+        VObject lhs = node.getLHS().accept(Evaluator.this, e),
+                rhs = node.getRHS().accept(Evaluator.this, e);
+
+        return new NumV(
         		null,
-        		node,
-        		new Environment(this.currentEnv)) {
-
-            @Override
-            public VObject evaluate(final Environment e) {
-                ASTNode lhsNode = node.getChildAt(0),
-                        rhsNode = node.getChildAt(1);
-
-                VObject lhs = lhsNode.accept(Evaluator.this).evaluate(e),
-                        rhs = rhsNode.accept(Evaluator.this).evaluate(e);
-
-                /*
-                if (!(lhs instanceof NumV && rhs instanceof NumV))
-                	throw new Exception ("wrong operand type!");
-                */
-                
-                NumV result = new NumV(
-                		null,
-                		((NumV) lhs).getValue() + ((NumV) rhs).getValue()
-                		);
-                
-                return result; 
-            }
-
-        };
+        		((NumV) lhs).getValue() + ((NumV) rhs).getValue()
+        		);
     }
 
     @Override
-    public VObject visit(IntegerNode node) {
+    public VObject visit(IntegerNode node, Environment e) {
         return new NumV(null, node.getValue());
     }
 
     @Override
-    public VObject visit(SymbolNode node) {
-    	return new ClosureV(
-			node.getId(),
-			node.getId(),
-			null,
-			null) {
-				@Override
-				public VObject evaluate(Environment e) {
-					System.out.println("symbol ENV=" + e);
-					return e.lookUp(this.getId());
-			}
-    	};
+    public VObject visit(SymbolNode node, Environment e) {
+		return e.lookUp(node.getId());
     }
 
     @Override
-    public VObject visit(LetNode node) {
+    public VObject visit(LetNode node, Environment e) {
         for (ASTNode child : node.getBindings().getChildren()) {
             this.currentEnv.putIn(
                     ((SymbolNode) child.getChildAt(0)).getId(),
-                    (VObject) child.getChildAt(1).accept(this)
+                    (VObject) child.getChildAt(1).accept(this, null)
                     );
         }
 
-        VObject vo = (VObject) node.getBody().accept(this);
+        VObject vo = (VObject) node.getBody().accept(this, null);
 
         return vo;
     }
 
     @Override
-    public VObject visit(LambdaNode node) {
+    public VObject visit(LambdaNode node, Environment e) {
     	System.out.println("visiting lambda node: " + node);
-
-        System.out.println();
         
         return new ClosureV(
         		node.toString(),
                 node.getParam().getId(),
                 node.getBody(),
-                new Environment(this.currentEnv)) {
+                new Environment(e)) {
 
             @Override
-            public VObject evaluate(final Environment e) {
+            public VObject evaluate(final Environment env) {
             	System.out.println("closure eval ENV=" + this.getEnv());
             	System.out.println("evaluating: " + this.getBody());
             	
-            	VObject vo = this.getBody().accept(Evaluator.this).evaluate(this.getEnv());
+            	VObject vo = this.getBody().accept(Evaluator.this, this.getEnv());
             	
             	return vo;
             }
@@ -99,17 +67,17 @@ public class Evaluator implements Visitor {
     }
 
     @Override
-    public VObject visit(ListNode node) {
+    public VObject visit(ListNode node, Environment e) {
     	
-    	final ClosureV fun = (ClosureV) node.getChildAt(0).accept(this);
+    	final ClosureV fun = (ClosureV) node.getChildAt(0).accept(this, e);
     	System.out.println("fun=" + fun);
     	
-    	final VObject arg = node.getChildAt(1).accept(this);
-    	
-    	fun.apply(arg);
+    	final VObject arg = node.getChildAt(1).accept(this, e);
     	System.out.println("arg=" + arg);
     	
-    	return fun; 
+    	return fun.getBody().accept(this, new Environment(e) {{
+    			this.putIn(fun.getParam(), arg);
+    		}}); 
     }
 
     private Environment currentEnv = new Environment();

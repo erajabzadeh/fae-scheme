@@ -44,11 +44,11 @@ public class Let2LambdaTransformer implements ASTTransformer {
         ASTNode root = parser.list();
 
         System.out.println("==before==");
-        root.accept(astPrinter);
+        root.accept(astPrinter, null);
 
         root = new Let2LambdaTransformer().transform(root);
 
         System.out.println("==after==");
-        root.accept(astPrinter);
+        root.accept(astPrinter, null);
     }
 }

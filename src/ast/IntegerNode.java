@@ -1,5 +1,6 @@
 package ast;
 
+import interp.Environment;
 import interp.VObject;
 import interp.Visitor;
 
@@ -21,8 +22,8 @@ public class IntegerNode implements ASTNode {
     }
     
     @Override
-    public VObject accept (final Visitor visitor) {
-        return visitor.visit(this);
+    public VObject accept (final Visitor visitor, Environment e) {
+        return visitor.visit(this, null);
     }
 
     public    void addChild(final ASTNode node) {}

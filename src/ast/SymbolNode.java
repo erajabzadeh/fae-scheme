@@ -1,5 +1,6 @@
 package ast;
 
+import interp.Environment;
 import interp.VObject;
 import interp.Visitor;
 
@@ -16,8 +17,8 @@ public class SymbolNode implements ASTNode {
     }
 
     @Override
-    public VObject accept (final Visitor visitor) {
-        return visitor.visit(this);
+    public VObject accept (final Visitor visitor, Environment e) {
+        return visitor.visit(this, e);
     }
 
     @Override

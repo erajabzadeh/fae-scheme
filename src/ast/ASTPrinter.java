@@ -1,5 +1,6 @@
 package ast;
 
+import interp.Environment;
 import interp.VObject;
 import interp.Visitor;
 
@@ -14,12 +15,12 @@ public class ASTPrinter implements Visitor {
     }
 
     @Override
-        public VObject visit(AdditionNode node) {
+        public VObject visit(AdditionNode node, Environment e) {
             this.printer.println(this.dent + "[add");
             this.indent(); 
 
-            node.getLHS().accept(this);
-            node.getRHS().accept(this);
+            node.getLHS().accept(this, null);
+            node.getRHS().accept(this, null);
 
             this.outdent();
             this.printer.println(this.dent + "]");
@@ -28,7 +29,7 @@ public class ASTPrinter implements Visitor {
         }
 
     @Override
-        public VObject visit(IntegerNode node) {
+        public VObject visit(IntegerNode node, Environment e) {
             this.printer.println(
                     this.dent + 
                     "[num " + node.getValue() + "]"
@@ -38,19 +39,19 @@ public class ASTPrinter implements Visitor {
         }
 
     @Override
-        public VObject visit(SymbolNode node) {
+        public VObject visit(SymbolNode node, Environment e) {
             this.printer.println(this.dent + "[id " + node.getId() + "]");
 
             return null;
         }
 
     @Override
-        public VObject visit(LetNode node) {
+        public VObject visit(LetNode node, Environment e) {
             this.printer.println(this.dent + "[let"); 
 
             this.indent();
             for (ASTNode child : node.getChildren())
-                child.accept(this);
+                child.accept(this, null);
             this.outdent();
 
             this.printer.println(this.dent + "]");
@@ -59,12 +60,12 @@ public class ASTPrinter implements Visitor {
         }
 
     @Override
-        public VObject visit(LambdaNode node) {
+        public VObject visit(LambdaNode node, Environment e) {
             this.printer.println(this.dent + "[lambda");
 
             this.indent();
             for (ASTNode child : node.getChildren())
-                child.accept(this);
+                child.accept(this, null);
             this.outdent();
 
             this.printer.println(this.dent + "]");
@@ -73,12 +74,12 @@ public class ASTPrinter implements Visitor {
         }
 
     @Override
-        public VObject visit(ListNode node) {
+        public VObject visit(ListNode node, Environment e) {
             this.printer.println(this.dent + "[list");
 
             this.indent();
             for (ASTNode child : node.getChildren())
-                child.accept(this);
+                child.accept(this, null);
             this.outdent();
 
             this.printer.println(this.dent + "]");
