@@ -1,5 +1,5 @@
 package interp;
 
 public interface Visitable {
-    Object accept(final Visitor visitor);
+    VObject accept(final Visitor visitor);
 }

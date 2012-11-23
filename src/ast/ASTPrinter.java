@@ -1,9 +1,9 @@
 package ast;
 
-import java.io.PrintStream;
-import java.io.PrintWriter;
-
+import interp.VObject;
 import interp.Visitor;
+
+import java.io.PrintStream;
 
 public class ASTPrinter implements Visitor {
 
@@ -14,7 +14,7 @@ public class ASTPrinter implements Visitor {
     }
 
     @Override
-        public Object visit(AdditionNode node) {
+        public VObject visit(AdditionNode node) {
             this.printer.println(this.dent + "[add");
             this.indent(); 
 
@@ -28,7 +28,7 @@ public class ASTPrinter implements Visitor {
         }
 
     @Override
-        public Object visit(IntegerNode node) {
+        public VObject visit(IntegerNode node) {
             this.printer.println(
                     this.dent + 
                     "[num " + node.getValue() + "]"
@@ -38,14 +38,14 @@ public class ASTPrinter implements Visitor {
         }
 
     @Override
-        public Object visit(SymbolNode node) {
+        public VObject visit(SymbolNode node) {
             this.printer.println(this.dent + "[id " + node.getId() + "]");
 
             return null;
         }
 
     @Override
-        public Object visit(LetNode node) {
+        public VObject visit(LetNode node) {
             this.printer.println(this.dent + "[let"); 
 
             this.indent();
@@ -59,7 +59,7 @@ public class ASTPrinter implements Visitor {
         }
 
     @Override
-        public Object visit(LambdaNode node) {
+        public VObject visit(LambdaNode node) {
             this.printer.println(this.dent + "[lambda");
 
             this.indent();
@@ -73,7 +73,7 @@ public class ASTPrinter implements Visitor {
         }
 
     @Override
-        public Object visit(ListNode node) {
+        public VObject visit(ListNode node) {
             this.printer.println(this.dent + "[list");
 
             this.indent();

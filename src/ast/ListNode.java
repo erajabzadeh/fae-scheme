@@ -1,11 +1,12 @@
 package ast;
 
+import interp.VObject;
 import interp.Visitor;
 
 public class ListNode extends SimpleNode {
 
     @Override
-    public Object accept(final Visitor visitor) {
+    public VObject accept(final Visitor visitor) {
         return visitor.visit(this);
     }
 

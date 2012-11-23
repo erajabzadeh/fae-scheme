@@ -17,9 +17,13 @@ public class Interpreter {
 
             try {
                 Visitor e = new Evaluator();
+                
                 ASTTransformer transformer = new Let2LambdaTransformer();
                 root = transformer.transform(root);
-                VObject vo = (VObject) root.accept(e); 
+                
+                VObject vo = root.accept(e);
+
+                System.out.println(">ANS:");
                 System.out.println(vo.evaluate(new Environment()));
                 System.out.println();
             }
@@ -28,7 +32,8 @@ public class Interpreter {
             }
 
             try {
-                System.out.println("AST:");
+                System.out.println(">AST:");
+                
                 Visitor astPrinter = new ASTPrinter(System.out);
                 root.accept(astPrinter);
                 System.out.println();
@@ -36,6 +41,7 @@ public class Interpreter {
             catch (Exception e) {
                 e.printStackTrace();
             }
+        
         }
     }
 }

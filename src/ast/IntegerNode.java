@@ -1,5 +1,6 @@
 package ast;
 
+import interp.VObject;
 import interp.Visitor;
 
 import java.util.*;
@@ -15,7 +16,12 @@ public class IntegerNode implements ASTNode {
     }
 
     @Override
-    public Object accept (final Visitor visitor) {
+    public String toString() {
+    	return this.value;
+    }
+    
+    @Override
+    public VObject accept (final Visitor visitor) {
         return visitor.visit(this);
     }
 

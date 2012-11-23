@@ -1,6 +1,6 @@
 package interp;
 
 public interface VObject {
-    Object evaluate(final Environment env);
+    VObject evaluate(final Environment e);
 }
 

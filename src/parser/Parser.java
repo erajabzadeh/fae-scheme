@@ -84,17 +84,17 @@ public class Parser implements ParserConstants {
       jj_consume_token(-1);
       throw new ParseException();
     }
-            node.addChild(f); { System.out.println("parser.app: " + f); }
+            node.addChild(f);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case 0:
     case LPAR:
       a = list();
-                         node.addChild(a); System.out.println("\u005ct" + a);
+                         node.addChild(a);
       break;
     case INTEGER:
     case SYMBOL:
       a = atom();
-                         node.addChild(a); System.out.println("\u005ct" + a);
+                         node.addChild(a);
       break;
     default:
       jj_la1[4] = jj_gen;
@@ -211,7 +211,7 @@ public class Parser implements ParserConstants {
   static final public ASTNode lambda() throws ParseException {
     ASTNode t,
             params,
-            body = null;
+            body;
     jj_consume_token(LAMBDA);
     jj_consume_token(LPAR);
     params = atom();
@@ -219,15 +219,11 @@ public class Parser implements ParserConstants {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case 0:
     case LPAR:
-      t = list();
-            if (body == null)
-                body = new ListNode();
-            body.addChild(t);
+      body = list();
       break;
     case INTEGER:
     case SYMBOL:
-      t = atom();
-            body = t;
+      body = atom();
       break;
     default:
       jj_la1[10] = jj_gen;

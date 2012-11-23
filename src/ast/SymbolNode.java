@@ -1,5 +1,6 @@
 package ast;
 
+import interp.VObject;
 import interp.Visitor;
 
 import java.util.*;
@@ -15,13 +16,18 @@ public class SymbolNode implements ASTNode {
     }
 
     @Override
-    public Object accept (final Visitor visitor) {
+    public VObject accept (final Visitor visitor) {
         return visitor.visit(this);
     }
 
-    public    void addChild(final ASTNode node) {}
-    public    ASTNode getChildAt(int i) { return null; }
-    public    List<ASTNode> getChildren() { return null; }
+    @Override
+    public String toString() {
+    	return this.id;
+    }
+    
+    public void addChild(final ASTNode node) {}
+    public ASTNode getChildAt(int i) { return null; }
+    public List<ASTNode> getChildren() { return null; }
 
     private String id;
 

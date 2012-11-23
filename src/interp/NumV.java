@@ -8,8 +8,14 @@ public class NumV implements VObject {
     }
 
     @Override
-    public Object evaluate(final Environment env) {
-        return this.value;
+    public VObject evaluate(final Environment e) {
+    	// for int nodes
+    	if (this.value != null)
+    		return this;
+    	
+    	// for symbol nodes
+    	VObject vo = e.lookUp(this.id);
+    	return vo;
     }
 
     public String getId() {
@@ -20,6 +26,12 @@ public class NumV implements VObject {
         return value;
     }
 
+    @Override
+    public String toString() {
+    	return "[type=NumV, id=" + this.getId() + 
+    			", value=" + getValue() + "]";
+    }
+    
     private String  id;
     private Integer value;
 }

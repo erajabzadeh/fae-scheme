@@ -1,5 +1,6 @@
 package ast;
 
+import interp.VObject;
 import interp.Visitor;
 
 public class LetNode extends SimpleNode {
@@ -18,7 +19,7 @@ public class LetNode extends SimpleNode {
     }
 
     @Override
-    public Object accept(Visitor visitor) {
+    public VObject accept(Visitor visitor) {
         return visitor.visit(this);
     }
 

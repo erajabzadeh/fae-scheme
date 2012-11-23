@@ -81,11 +81,11 @@ ASTNode app():
         | f = atom()
         )
         {
-            node.addChild(f); { System.out.println("parser.app: " + f); }
+            node.addChild(f); 
         }
         (
-            a = list() { node.addChild(a); System.out.println("\t" + a); }
-          | a = atom() { node.addChild(a); System.out.println("\t" + a); }
+            a = list() { node.addChild(a); }
+          | a = atom() { node.addChild(a); }
         )
     )
     {
@@ -165,22 +165,14 @@ ASTNode lambda():
 {
     ASTNode t,
             params,
-            body = null;
+            body;
 }
 {
     <LAMBDA>
     <LPAR>params  = atom()<RPAR>
     (
-        t = list()
-        {
-            if (body == null)
-                body = new ListNode();
-            body.addChild(t);
-        }
-      | t = atom()
-        {
-            body = t;
-        }
+        body = list()
+      | body = atom()
     )
     {
         return new LambdaNode(params, body);

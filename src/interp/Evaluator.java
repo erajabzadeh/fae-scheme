@@ -1,25 +1,40 @@
 package interp;
 
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import ast.*;
 
 public class Evaluator implements Visitor {
 
     @Override
     public VObject visit(final AdditionNode node) {
-        System.out.println("==AdditionNode==");
-        return new ClosureV (node.toString(), null, new Environment(this.currentEnv)) {
+        return new ClosureV(
+        		node.toString(),
+        		null,
+        		node,
+        		new Environment(this.currentEnv)) {
 
             @Override
-            public Object evaluate(final Environment e) {
-                ASTNode lhsNode  = node.getChildAt(0),
+            public VObject evaluate(final Environment e) {
+                ASTNode lhsNode = node.getChildAt(0),
                         rhsNode = node.getChildAt(1);
 
-                System.out.println("ENV:" + this.getEnv());
+                VObject lhs = lhsNode.accept(Evaluator.this).evaluate(e),
+                        rhs = rhsNode.accept(Evaluator.this).evaluate(e);
 
-                Object lhs = ((VObject) lhsNode.accept(Evaluator.this)).evaluate(this.getEnv()),
-                       rhs = ((VObject) rhsNode.accept(Evaluator.this)).evaluate(this.getEnv());
- 
-                return (Integer) lhs + (Integer) rhs;
+                /*
+                if (!(lhs instanceof NumV && rhs instanceof NumV))
+                	throw new Exception ("wrong operand type!");
+                */
+                
+                NumV result = new NumV(
+                		null,
+                		((NumV) lhs).getValue() + ((NumV) rhs).getValue()
+                		);
+                
+                return result; 
             }
 
         };
@@ -27,29 +42,31 @@ public class Evaluator implements Visitor {
 
     @Override
     public VObject visit(IntegerNode node) {
-        System.out.println("==IntegerNode==");
         return new NumV(null, node.getValue());
     }
 
     @Override
     public VObject visit(SymbolNode node) {
-        System.out.println("==SymbolNode==");
-        String id = node.getId();
-
-        // TODO: throw exception if not in env
-        VObject vo = this.currentEnv.lookUp(id);
-        System.out.println("symbol vo=" + vo);
-        return vo;
+    	return new ClosureV(
+			node.getId(),
+			node.getId(),
+			null,
+			null) {
+				@Override
+				public VObject evaluate(Environment e) {
+					System.out.println("symbol ENV=" + e);
+					return e.lookUp(this.getId());
+			}
+    	};
     }
 
     @Override
     public VObject visit(LetNode node) {
-        System.out.println("==LeetNode==");
         for (ASTNode child : node.getBindings().getChildren()) {
             this.currentEnv.putIn(
-                ((SymbolNode) child.getChildAt(0)).getId(),
-                (VObject) child.getChildAt(1).accept(this)
-            );
+                    ((SymbolNode) child.getChildAt(0)).getId(),
+                    (VObject) child.getChildAt(1).accept(this)
+                    );
         }
 
         VObject vo = (VObject) node.getBody().accept(this);
@@ -59,47 +76,47 @@ public class Evaluator implements Visitor {
 
     @Override
     public VObject visit(LambdaNode node) {
-        System.out.println("==LambdaNode==");
+    	System.out.println("visiting lambda node: " + node);
 
-        final LambdaNode n = node;
-        return new ClosureV(node.toString(),
+        System.out.println();
+        
+        return new ClosureV(
+        		node.toString(),
                 node.getParam().getId(),
+                node.getBody(),
                 new Environment(this.currentEnv)) {
 
-                    @Override
-                    public Object evaluate(final Environment env) {
-                        return n.getBody().accept(Evaluator.this);
-                    }
+            @Override
+            public VObject evaluate(final Environment e) {
+            	System.out.println("closure eval ENV=" + this.getEnv());
+            	System.out.println("evaluating: " + this.getBody());
+            	
+            	VObject vo = this.getBody().accept(Evaluator.this).evaluate(this.getEnv());
+            	
+            	return vo;
+            }
         };
     }
 
     @Override
     public VObject visit(ListNode node) {
-        System.out.println("==ListNode==");
-        ASTNode n0 = node.getChildAt(0);
-
-        System.out.println("n0=" + n0);
-        if (n0 instanceof LambdaNode) {
-            System.out.print("evaluating...\n\t");
-            LambdaNode ln = (LambdaNode) n0;
-            SymbolNode param = ln.getParam();
-            ASTNode body = ln.getBody(),
-                    arg = node.getChildAt(1);
-
-            System.out.println("param=" + param
-                    + ", body=" + body + ", arg=" + arg);
-            VObject vo = (VObject) arg.accept(this);
-
-            this.currentEnv.putIn(
-                param.getId(),
-                vo
-            );
-
-            return (VObject) body.accept(this);
-        }
-        else
-            return (VObject) node.getChildAt(0).accept(this);
+    	
+    	final ClosureV fun = (ClosureV) node.getChildAt(0).accept(this);
+    	System.out.println("fun=" + fun);
+    	
+    	final VObject arg = node.getChildAt(1).accept(this);
+    	
+    	fun.apply(arg);
+    	System.out.println("arg=" + arg);
+    	
+    	return fun; 
     }
 
     private Environment currentEnv = new Environment();
+    private final Logger logger = Logger.getLogger(Evaluator.class.getName());
+    
+    {
+    	logger.addHandler(new ConsoleHandler());
+    	logger.setLevel(Level.ALL);
+    }
 }
