@@ -35,7 +35,7 @@ public class Evaluator implements Visitor {
         for (ASTNode child : node.getBindings().getChildren()) {
             this.currentEnv.putIn(
                     ((SymbolNode) child.getChildAt(0)).getId(),
-                    (VObject) child.getChildAt(1).accept(this, null)
+                    (VObject) child.getChildAt(1).accept(this, e)
                     );
         }
 
@@ -43,41 +43,24 @@ public class Evaluator implements Visitor {
 
         return vo;
     }
-
+	
     @Override
     public VObject visit(LambdaNode node, Environment e) {
-    	System.out.println("visiting lambda node: " + node);
-        
         return new ClosureV(
         		node.toString(),
                 node.getParam().getId(),
                 node.getBody(),
-                new Environment(e)) {
-
-            @Override
-            public VObject evaluate(final Environment env) {
-            	System.out.println("closure eval ENV=" + this.getEnv());
-            	System.out.println("evaluating: " + this.getBody());
-            	
-            	VObject vo = this.getBody().accept(Evaluator.this, this.getEnv());
-            	
-            	return vo;
-            }
-        };
+                new Environment(e));
     }
 
     @Override
     public VObject visit(ListNode node, Environment e) {
     	
-    	final ClosureV fun = (ClosureV) node.getChildAt(0).accept(this, e);
-    	System.out.println("fun=" + fun);
-    	
-    	final VObject arg = node.getChildAt(1).accept(this, e);
-    	System.out.println("arg=" + arg);
-    	
-    	return fun.getBody().accept(this, new Environment(e) {{
-    			this.putIn(fun.getParam(), arg);
-    		}}); 
+    	ClosureV fun = (ClosureV) node.getChildAt(0).accept(this, e);
+    	VObject  arg = node.getChildAt(1).accept(this, e);
+
+    	e.putIn(fun.getParam(), arg);
+    	return fun.getBody().accept(this, new Environment(e));
     }
 
     private Environment currentEnv = new Environment();

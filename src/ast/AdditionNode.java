@@ -24,4 +24,9 @@ public class AdditionNode extends SimpleNode implements Visitable {
 	public VObject accept(Visitor visitor, Environment e) {
 		return visitor.visit(this, e);
 	}
+	
+	@Override
+	public String toString() {
+		return this.getLHS() + " + " + this.getRHS();
+	}
 }

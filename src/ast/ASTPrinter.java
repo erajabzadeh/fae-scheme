@@ -75,7 +75,7 @@ public class ASTPrinter implements Visitor {
 
     @Override
         public VObject visit(ListNode node, Environment e) {
-            this.printer.println(this.dent + "[list");
+            this.printer.println(this.dent + "[app");
 
             this.indent();
             for (ASTNode child : node.getChildren())
