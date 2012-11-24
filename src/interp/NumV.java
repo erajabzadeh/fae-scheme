@@ -25,8 +25,7 @@ public class NumV implements VObject {
     
     @Override
     public String toString() {
-    	return "[type=NumV, id=" + this.getId() + 
-    			", value=" + getValue() + "]";
+    	return "[type=NumV, value=" + getValue() + "]";
     }
     
     private String  id;

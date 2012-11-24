@@ -1,13 +1,27 @@
 package interp;
 
-import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import ast.*;
+import util.LogFormatter;
+
+import ast.ASTNode;
+import ast.AdditionNode;
+import ast.IntegerNode;
+import ast.LambdaNode;
+import ast.LetNode;
+import ast.ListNode;
+import ast.SymbolNode;
 
 public class Evaluator implements Visitor {
 
+	public Evaluator() {
+		Handler handler = this.logger.getParent().getHandlers()[0];
+		handler.setFormatter(new LogFormatter());
+		logger.setLevel(Level.INFO);
+	}
+	
     @Override
     public VObject visit(final AdditionNode node, Environment e) {
     	
@@ -59,18 +73,13 @@ public class Evaluator implements Visitor {
     	final ClosureV fun = (ClosureV) node.getChildAt(0).accept(this, e);
     	final VObject  arg = node.getChildAt(1).accept(this, e);
 
-    	System.out.println(">Evaluating\tfun=" + fun + ", arg=" + arg);
+    	logger.info("Evaluating fun=" + fun + ", arg=" + arg);
     	return fun.getBody().accept(this, new Environment(fun.getEnv()) {{
     		putIn(fun.getParam(), arg);
-    		System.out.println(">Environment\t" + this.toFAEString());
+    		logger.info("Environment=" + this.toFAEString());
     	}});
     }
 
     private Environment currentEnv = new Environment();
     private final Logger logger = Logger.getLogger(Evaluator.class.getName());
-    
-    {
-    	logger.addHandler(new ConsoleHandler());
-    	logger.setLevel(Level.ALL);
-    }
 }

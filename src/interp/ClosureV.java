@@ -32,7 +32,8 @@ public class ClosureV implements VObject {
 
     @Override
     public String toFAEString() {
-    	return String.format("(closureV '%s %s %s)",
+    	// right ) not necessary
+    	return String.format("(closureV '%s %s %s",
     			this.getParam(),
     			this.getBody().toFAEString(),
     			this.getEnv().toFAEString()
