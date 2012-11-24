@@ -71,7 +71,7 @@ public class ASTPrinter implements Visitor {
         }
 
     @Override
-        public VObject visit(IntegerNode node, Environment e) {
+        public VObject visit(NumberNode node, Environment e) {
             this.printer.println(
                     this.dent + 
                     "[num " + node.getValue() + "]"

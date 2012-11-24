@@ -11,7 +11,11 @@ public class Parser implements ParserConstants {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case INTEGER:
       token = jj_consume_token(INTEGER);
-                          node = new IntegerNode(token.image);
+                          node = new NumberNode(Integer.parseInt(token.image));
+      break;
+    case FLOAT:
+      token = jj_consume_token(FLOAT);
+                          node = new NumberNode(Double.parseDouble(token.image));
       break;
     case SYMBOL:
       token = jj_consume_token(SYMBOL);
@@ -35,6 +39,7 @@ public class Parser implements ParserConstants {
       case 0:
       case LPAR:
       case INTEGER:
+      case FLOAT:
       case SYMBOL:
         node = app();
         break;
@@ -85,6 +90,7 @@ public class Parser implements ParserConstants {
       f = list();
       break;
     case INTEGER:
+    case FLOAT:
     case SYMBOL:
       f = atom();
       break;
@@ -101,6 +107,7 @@ public class Parser implements ParserConstants {
                          node.addChild(a);
       break;
     case INTEGER:
+    case FLOAT:
     case SYMBOL:
       a = atom();
                          node.addChild(a);
@@ -125,6 +132,7 @@ public class Parser implements ParserConstants {
       lhs = list();
       break;
     case INTEGER:
+    case FLOAT:
     case SYMBOL:
       lhs = atom();
       break;
@@ -139,6 +147,7 @@ public class Parser implements ParserConstants {
       rhs = list();
       break;
     case INTEGER:
+    case FLOAT:
     case SYMBOL:
       rhs = atom();
       break;
@@ -162,6 +171,7 @@ public class Parser implements ParserConstants {
       lhs = list();
       break;
     case INTEGER:
+    case FLOAT:
     case SYMBOL:
       lhs = atom();
       break;
@@ -176,6 +186,7 @@ public class Parser implements ParserConstants {
       rhs = list();
       break;
     case INTEGER:
+    case FLOAT:
     case SYMBOL:
       rhs = atom();
       break;
@@ -199,6 +210,7 @@ public class Parser implements ParserConstants {
       lhs = list();
       break;
     case INTEGER:
+    case FLOAT:
     case SYMBOL:
       lhs = atom();
       break;
@@ -213,6 +225,7 @@ public class Parser implements ParserConstants {
       rhs = list();
       break;
     case INTEGER:
+    case FLOAT:
     case SYMBOL:
       rhs = atom();
       break;
@@ -236,6 +249,7 @@ public class Parser implements ParserConstants {
       lhs = list();
       break;
     case INTEGER:
+    case FLOAT:
     case SYMBOL:
       lhs = atom();
       break;
@@ -250,6 +264,7 @@ public class Parser implements ParserConstants {
       rhs = list();
       break;
     case INTEGER:
+    case FLOAT:
     case SYMBOL:
       rhs = atom();
       break;
@@ -289,6 +304,7 @@ public class Parser implements ParserConstants {
       body = list();
       break;
     case INTEGER:
+    case FLOAT:
     case SYMBOL:
       body = atom();
       break;
@@ -314,6 +330,7 @@ public class Parser implements ParserConstants {
       expr = list();
       break;
     case INTEGER:
+    case FLOAT:
     case SYMBOL:
       expr = atom();
       break;
@@ -342,6 +359,7 @@ public class Parser implements ParserConstants {
       body = list();
       break;
     case INTEGER:
+    case FLOAT:
     case SYMBOL:
       body = atom();
       break;
@@ -370,7 +388,7 @@ public class Parser implements ParserConstants {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x8100,0xff41,0x41,0x8141,0x8141,0x8141,0x8141,0x8141,0x8141,0x8141,0x8141,0x8141,0x8141,0x40,0x8141,0x8141,0x8141,};
+      jj_la1_0 = new int[] {0x10300,0x1ff41,0x41,0x10341,0x10341,0x10341,0x10341,0x10341,0x10341,0x10341,0x10341,0x10341,0x10341,0x40,0x10341,0x10341,0x10341,};
    }
 
   /** Constructor with InputStream. */
@@ -508,7 +526,7 @@ public class Parser implements ParserConstants {
   /** Generate ParseException. */
   static public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[17];
+    boolean[] la1tokens = new boolean[18];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -522,7 +540,7 @@ public class Parser implements ParserConstants {
         }
       }
     }
-    for (int i = 0; i < 17; i++) {
+    for (int i = 0; i < 18; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

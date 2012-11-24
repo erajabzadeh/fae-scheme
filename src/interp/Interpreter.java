@@ -16,14 +16,17 @@ public class Interpreter {
         while ((root = parser.list()) != null) {
 
             try {
+                // turn lets to lambda applications
                 ASTTransformer transformer = new Let2LambdaTransformer();
                 root = transformer.transform(root);
 
+                // print the AST
                 //System.out.println(">AST:");
                 Visitor astPrinter = new ASTPrinter(System.out);
                 root.accept(astPrinter, null);
                 System.out.println();
 
+                // evaluate the expression
                 Visitor e = new Evaluator();
                 VObject vo = root.accept(e, new Environment());
                 //System.out.println(">Answer: ");

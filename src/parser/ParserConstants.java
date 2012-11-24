@@ -17,21 +17,23 @@ public interface ParserConstants {
   /** RegularExpression Id. */
   int INTEGER = 8;
   /** RegularExpression Id. */
-  int LAMBDA = 9;
+  int FLOAT = 9;
   /** RegularExpression Id. */
-  int LET = 10;
+  int LAMBDA = 10;
   /** RegularExpression Id. */
-  int ADD = 11;
+  int LET = 11;
   /** RegularExpression Id. */
-  int SUB = 12;
+  int ADD = 12;
   /** RegularExpression Id. */
-  int MUL = 13;
+  int SUB = 13;
   /** RegularExpression Id. */
-  int DIV = 14;
+  int MUL = 14;
   /** RegularExpression Id. */
-  int SYMBOL = 15;
+  int DIV = 15;
   /** RegularExpression Id. */
-  int ERROR = 16;
+  int SYMBOL = 16;
+  /** RegularExpression Id. */
+  int ERROR = 17;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -47,6 +49,7 @@ public interface ParserConstants {
     "\"(\"",
     "\")\"",
     "<INTEGER>",
+    "<FLOAT>",
     "\"lambda\"",
     "\"let\"",
     "\"+\"",

@@ -21,13 +21,14 @@ TOKEN:
       <LPAR    : "(">
     | <RPAR    : ")">
     | <INTEGER : ("-")? (["0"-"9"])+>
+    | <FLOAT   : ("-")? (["0"-"9"])* "." (["0"-"9"])+>
     | <LAMBDA  : "lambda">
     | <LET     : "let">
     | <ADD     : "+">
     | <SUB     : "-">
     | <MUL     : "*">
     | <DIV     : "/">
-    | <SYMBOL  : (["a"-"z", "A"-"Z"])*>
+    | <SYMBOL  : (["a"-"z", "A"-"Z"]) (~["(", ")", " ", "\t", "\n", "\r"])*>
 }
 
 TOKEN:
@@ -42,7 +43,8 @@ ASTNode atom():
 }
 {
     (
-      token = <INTEGER> { node = new IntegerNode(token.image); }
+      token = <INTEGER> { node = new NumberNode(Integer.parseInt(token.image)); }
+    | token = <FLOAT>   { node = new NumberNode(Double.parseDouble(token.image)); }
     | token = <SYMBOL>  { node = new SymbolNode(token.image); }
     )
     {

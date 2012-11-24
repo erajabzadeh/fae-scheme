@@ -5,3 +5,5 @@
 (((lambda (x) (lambda (y) (+ x y))) 2) 3)
 (let ((f (lambda (x) (+ x x)))) (f 3))
 ((lambda (H) ((lambda (f) ((lambda (d/dx) (d/dx 10)) (lambda (x) (/ (- (f (+ x H)) (f x)) H)))) (lambda (x) (* x x)))) .001)
+(let ((f (lambda (x) (* x 3)))) (let ((f (lambda (y) (- y 1)))) (f 2)))
+(let ((x 2)) (let ((x (+ x 3))) x))

@@ -21,7 +21,7 @@ public class LetNode extends SimpleNode {
 
     @Override
     public VObject accept(Visitor visitor, Environment e) {
-        return visitor.visit(this, null);
+        return visitor.visit(this, e);
     }
 
 	@Override
