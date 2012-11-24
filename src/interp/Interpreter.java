@@ -23,7 +23,7 @@ public class Interpreter {
                 
                 VObject vo = root.accept(e, new Environment());
 
-                System.out.println(">ANS:");
+                System.out.println(">Answer: ");
                 System.out.println(vo);
                 System.out.println();
             }

@@ -24,4 +24,9 @@ public class LetNode extends SimpleNode {
         return visitor.visit(this, null);
     }
 
+	@Override
+	public String toFAEString() {
+		return null;
+	}
+
 }

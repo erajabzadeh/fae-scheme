@@ -16,6 +16,14 @@ public class NumV implements VObject {
     }
 
     @Override
+    public String toFAEString() {
+    	if (this.value != null)
+    		return "(numV " + this.value + ")";
+    	else
+    		return "(id '" + this.id + ")";
+    }
+    
+    @Override
     public String toString() {
     	return "[type=NumV, id=" + this.getId() + 
     			", value=" + getValue() + "]";

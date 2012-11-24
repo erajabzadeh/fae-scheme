@@ -29,4 +29,11 @@ public class AdditionNode extends SimpleNode implements Visitable {
 	public String toString() {
 		return this.getLHS() + " + " + this.getRHS();
 	}
+
+	@Override
+	public String toFAEString() {
+		return String.format("(add %s %s)", 
+				this.getLHS().toFAEString(),
+				this.getRHS().toFAEString());
+	}
 }

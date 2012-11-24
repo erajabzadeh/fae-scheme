@@ -24,4 +24,11 @@ public class LambdaNode extends SimpleNode {
         return visitor.visit(this, e);
     }
 
+	@Override
+	public String toFAEString() {
+		return String.format("(fun '%s %s)",
+			this.getParam().toFAEString(),
+			this.getBody().toFAEString());
+	}
+    
 }

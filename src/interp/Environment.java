@@ -31,9 +31,17 @@ public class Environment {
         return result;
     }
 
-    @Override
-    public String toString() {
-        return table.toString();
+    public String toFAEString() {
+    	StringBuilder sb = new StringBuilder();
+    	
+    	for (Map.Entry<String, VObject> e : this.table.entrySet()) {
+    		sb.append("(aSub ");
+    		sb.append("'" + e.getKey() + " ");
+    		sb.append(e.getValue().toFAEString() + " ");
+    	}
+    	sb.append("(mtSub))");
+    	
+    	return sb.toString();
     }
 
     private Map<String, VObject> table;

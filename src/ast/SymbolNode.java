@@ -32,5 +32,10 @@ public class SymbolNode implements ASTNode {
 
     private String id;
 
+	@Override
+	public String toFAEString() {
+		return String.format("(id '%s)", this.getId());
+	}
+
 }
 

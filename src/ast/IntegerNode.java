@@ -31,5 +31,10 @@ public class IntegerNode implements ASTNode {
     public    List<ASTNode> getChildren() { return null; }
 
     private String value;
+
+	@Override
+	public String toFAEString() {
+		return String.format("(numV %s)", this.getValue());
+	}
 }
 

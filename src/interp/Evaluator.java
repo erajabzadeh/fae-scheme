@@ -56,11 +56,14 @@ public class Evaluator implements Visitor {
     @Override
     public VObject visit(ListNode node, Environment e) {
     	
-    	ClosureV fun = (ClosureV) node.getChildAt(0).accept(this, e);
-    	VObject  arg = node.getChildAt(1).accept(this, e);
+    	final ClosureV fun = (ClosureV) node.getChildAt(0).accept(this, e);
+    	final VObject  arg = node.getChildAt(1).accept(this, e);
 
-    	e.putIn(fun.getParam(), arg);
-    	return fun.getBody().accept(this, new Environment(e));
+    	System.out.println(">Evaluating\tfun=" + fun + ", arg=" + arg);
+    	return fun.getBody().accept(this, new Environment(fun.getEnv()) {{
+    		putIn(fun.getParam(), arg);
+    		System.out.println(">Environment\t" + this.toFAEString());
+    	}});
     }
 
     private Environment currentEnv = new Environment();
