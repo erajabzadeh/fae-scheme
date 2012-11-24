@@ -24,6 +24,9 @@ TOKEN:
     | <LAMBDA  : "lambda">
     | <LET     : "let">
     | <ADD     : "+">
+    | <SUB     : "-">
+    | <MUL     : "*">
+    | <DIV     : "/">
     | <SYMBOL  : (["a"-"z", "A"-"Z"])*>
 }
 
@@ -58,6 +61,9 @@ ASTNode list():
         (
               node = app() 
             | node = add()
+            | node = sub()
+            | node = mul()
+            | node = div()
             | node = let()
             | node = lambda() 
         )
@@ -113,6 +119,75 @@ ASTNode add():
     )
     {
         return new AdditionNode(lhs, rhs);
+    }
+}
+
+ASTNode sub():
+{
+    ASTNode node,
+            lhs,
+            rhs;
+}
+{
+    <SUB>
+    (
+    (
+      lhs = list()
+    | lhs = atom()
+    )
+    (
+      rhs = list()
+    | rhs = atom()
+    )
+    )
+    {
+        return new SubtractionNode(lhs, rhs);
+    }
+}
+
+ASTNode mul():
+{
+    ASTNode node,
+            lhs,
+            rhs;
+}
+{
+    <MUL>
+    (
+    (
+      lhs = list()
+    | lhs = atom()
+    )
+    (
+      rhs = list()
+    | rhs = atom()
+    )
+    )
+    {
+        return new MultiplicationNode(lhs, rhs);
+    }
+}
+
+ASTNode div():
+{
+    ASTNode node,
+            lhs,
+            rhs;
+}
+{
+    <DIV>
+    (
+    (
+      lhs = list()
+    | lhs = atom()
+    )
+    (
+      rhs = list()
+    | rhs = atom()
+    )
+    )
+    {
+        return new DivisionNode(lhs, rhs);
     }
 }
 

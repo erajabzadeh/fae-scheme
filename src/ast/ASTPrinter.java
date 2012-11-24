@@ -29,6 +29,48 @@ public class ASTPrinter implements Visitor {
         }
 
     @Override
+        public VObject visit(SubtractionNode node, Environment e) {
+            this.printer.println(this.dent + "[sub");
+            this.indent(); 
+
+            node.getLHS().accept(this, null);
+            node.getRHS().accept(this, null);
+
+            this.outdent();
+            this.printer.println(this.dent + "]");
+
+            return null;
+        }
+
+    @Override
+        public VObject visit(MultiplicationNode node, Environment e) {
+            this.printer.println(this.dent + "[mul");
+            this.indent(); 
+
+            node.getLHS().accept(this, null);
+            node.getRHS().accept(this, null);
+
+            this.outdent();
+            this.printer.println(this.dent + "]");
+
+            return null;
+        }
+
+    @Override
+        public VObject visit(DivisionNode node, Environment e) {
+            this.printer.println(this.dent + "[div");
+            this.indent(); 
+
+            node.getLHS().accept(this, null);
+            node.getRHS().accept(this, null);
+
+            this.outdent();
+            this.printer.println(this.dent + "]");
+
+            return null;
+        }
+
+    @Override
         public VObject visit(IntegerNode node, Environment e) {
             this.printer.println(
                     this.dent + 

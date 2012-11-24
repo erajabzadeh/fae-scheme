@@ -6,13 +6,7 @@ import java.util.logging.Logger;
 
 import util.LogFormatter;
 
-import ast.ASTNode;
-import ast.AdditionNode;
-import ast.IntegerNode;
-import ast.LambdaNode;
-import ast.LetNode;
-import ast.ListNode;
-import ast.SymbolNode;
+import ast.*;
 
 public class Evaluator implements Visitor {
 
@@ -31,6 +25,42 @@ public class Evaluator implements Visitor {
         return new NumV(
         		null,
         		((NumV) lhs).getValue() + ((NumV) rhs).getValue()
+        		);
+    }
+
+    @Override
+    public VObject visit(final SubtractionNode node, Environment e) {
+    	
+        VObject lhs = node.getLHS().accept(Evaluator.this, e),
+                rhs = node.getRHS().accept(Evaluator.this, e);
+
+        return new NumV(
+        		null,
+           		((NumV) lhs).getValue() - ((NumV) rhs).getValue()
+        		);
+    }
+
+    @Override
+    public VObject visit(final MultiplicationNode node, Environment e) {
+    	
+        VObject lhs = node.getLHS().accept(Evaluator.this, e),
+                rhs = node.getRHS().accept(Evaluator.this, e);
+
+        return new NumV(
+        		null,
+        		((NumV) lhs).getValue() * ((NumV) rhs).getValue()
+        		);
+    }
+
+    @Override
+    public VObject visit(final DivisionNode node, Environment e) {
+    	
+        VObject lhs = node.getLHS().accept(Evaluator.this, e),
+                rhs = node.getRHS().accept(Evaluator.this, e);
+
+        return new NumV(
+        		null,
+        		((NumV) lhs).getValue() / ((NumV) rhs).getValue()
         		);
     }
 

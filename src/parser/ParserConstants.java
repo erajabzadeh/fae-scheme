@@ -23,9 +23,15 @@ public interface ParserConstants {
   /** RegularExpression Id. */
   int ADD = 11;
   /** RegularExpression Id. */
-  int SYMBOL = 12;
+  int SUB = 12;
   /** RegularExpression Id. */
-  int ERROR = 13;
+  int MUL = 13;
+  /** RegularExpression Id. */
+  int DIV = 14;
+  /** RegularExpression Id. */
+  int SYMBOL = 15;
+  /** RegularExpression Id. */
+  int ERROR = 16;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -44,6 +50,9 @@ public interface ParserConstants {
     "\"lambda\"",
     "\"let\"",
     "\"+\"",
+    "\"-\"",
+    "\"*\"",
+    "\"/\"",
     "<SYMBOL>",
     "<ERROR>",
   };

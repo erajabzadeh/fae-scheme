@@ -3,7 +3,10 @@ package interp;
 import ast.*;
 
 public interface Visitor {
-    VObject visit(AdditionNode node, Environment e);
+    VObject visit(AdditionNode       node, Environment e);
+    VObject visit(SubtractionNode    node, Environment e);
+    VObject visit(MultiplicationNode node, Environment e);
+    VObject visit(DivisionNode       node, Environment e);
     VObject visit(IntegerNode  node, Environment e);
     VObject visit(SymbolNode   node, Environment e);
     VObject visit(LetNode      node, Environment e);
