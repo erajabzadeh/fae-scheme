@@ -26,7 +26,10 @@ public class MultiplicationNode extends SimpleNode {
 
     @Override
     public String toString() {
-        return this.getLHS() + " * " + this.getRHS();
+        return String.format("(* %s %s)",
+                this.getLHS(),
+                this.getRHS()
+                );
     }
 
     @Override

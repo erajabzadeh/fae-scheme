@@ -4,16 +4,17 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import util.LogFormatter;
+import util.*;
 
 import ast.*;
 
 public class Evaluator implements Visitor {
 
+    public enum Scope { STATIC, DYNAMIC };
+
     public Evaluator() {
-        Handler handler = this.logger.getParent().getHandlers()[0];
-        handler.setFormatter(new LogFormatter());
-        logger.setLevel(Level.INFO);
+        this.setUpLogger();
+        this.configure();
     }
 
     @Override
@@ -80,22 +81,45 @@ public class Evaluator implements Visitor {
                 node.toString(),
                 node.getParam().getId(),
                 node.getBody(),
-                new Environment(e));
+                new Environment(e)); // TODO: should change for ds?
     }
 
     @Override
     public VObject visit(ListNode node, Environment e) {
 
-        final ClosureV fun = (ClosureV) node.getChildAt(0).accept(this, e);
-        final VObject  arg = node.getChildAt(1).accept(this, e);
+        final ClosureV fun = (ClosureV) node.getFunction().accept(this, e);
+        final VObject  arg = node.getArgument().accept(this, e);
 
         logger.info("Evaluating fun=" + fun + ", arg=" + arg);
-        return fun.getBody().accept(this, new Environment(fun.getEnv()) {{
+        return fun.getBody().accept(this, new Environment(this.scope == Scope.STATIC ? fun.getEnv() : e) {{
             putIn(fun.getParam(), arg);
             logger.info("Environment=" + this.toFAEString());
         }});
     }
 
+    private void configure() {
+
+        // scoping
+        if (JVMOptionParser.instance().isDefined("dynamic-scope") ||
+            JVMOptionParser.instance().isDefined("ds")) {
+            this.scope = Scope.DYNAMIC;
+            this.logger.info("Dynamic scoping");
+        }
+        else {
+            this.scope = Scope.STATIC;
+            this.logger.info("Static scoping");
+        }
+
+        // TODO: misc (logging level, ...)
+    }
+
+    private void setUpLogger() {
+        Handler handler = this.logger.getParent().getHandlers()[0];
+        handler.setFormatter(new LogFormatter());
+        logger.setLevel(Level.INFO);
+    }
+
     private Environment currentEnv = new Environment();
+    private Scope scope = Scope.STATIC;
     private final Logger logger = Logger.getLogger(Evaluator.class.getName());
 }

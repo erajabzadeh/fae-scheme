@@ -25,6 +25,14 @@ public class LambdaNode extends SimpleNode {
     }
 
     @Override
+    public String toString() {
+        return String.format("(lambda (%s) %s)",
+                this.getParam(),
+                this.getBody()
+                );
+    }
+
+    @Override
     public String toFAEString() {
         return String.format("(fun '%s %s)",
                 this.getParam().toFAEString(),

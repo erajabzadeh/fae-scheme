@@ -20,6 +20,14 @@ public class ListNode extends SimpleNode {
     }
 
     @Override
+    public String toString() {
+        return String.format("(%s %s)",
+                this.getFunction().toString(),
+                this.getArgument().toString()
+                );
+    }
+
+    @Override
     public String toFAEString() {
         return String.format("(app %s %s)",
                 this.getFunction().toFAEString(),

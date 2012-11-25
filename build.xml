@@ -9,7 +9,7 @@
         <pathelement location="bin"/>
     </path>
 
-    <target name="parser" depends="clean">
+    <target name="parser">
         <mkdir dir="src/parser"/>
         <javacc target="grammar/Parser.jj"
             javacchome="${env.JAVACC_HOME}"
