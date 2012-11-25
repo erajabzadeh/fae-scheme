@@ -1,5 +1,7 @@
 package ast;
 
+import interp.Visitable;
+
 import java.util.ArrayList;
 import java.util.List;
 

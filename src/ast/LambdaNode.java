@@ -6,7 +6,7 @@ import interp.Visitor;
 
 public class LambdaNode extends SimpleNode {
 
-    public LambdaNode (final ASTNode params, final ASTNode body) {
+    public LambdaNode(final ASTNode params, final ASTNode body) {
         this.children.add(params);
         this.children.add(body);
     }
@@ -24,11 +24,11 @@ public class LambdaNode extends SimpleNode {
         return visitor.visit(this, e);
     }
 
-	@Override
-	public String toFAEString() {
-		return String.format("(fun '%s %s)",
-			this.getParam().toFAEString(),
-			this.getBody().toFAEString());
-	}
-    
+    @Override
+    public String toFAEString() {
+        return String.format("(fun '%s %s)",
+                this.getParam().toFAEString(),
+                this.getBody().toFAEString());
+    }
+
 }

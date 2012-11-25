@@ -2,10 +2,9 @@ package ast;
 
 import interp.Environment;
 import interp.VObject;
-import interp.Visitable;
 import interp.Visitor;
 
-public class AdditionNode extends SimpleNode implements Visitable {
+public class AdditionNode extends SimpleNode {
 
     public AdditionNode (final ASTNode lhs, final ASTNode rhs) {
         this.addChild(lhs);

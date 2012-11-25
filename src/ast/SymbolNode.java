@@ -23,19 +23,18 @@ public class SymbolNode implements ASTNode {
 
     @Override
     public String toString() {
-    	return this.id;
+        return this.id;
     }
-    
+
+    @Override
+    public String toFAEString() {
+        return String.format("(id '%s)", this.getId());
+    }
+
     public void addChild(final ASTNode node) {}
     public ASTNode getChildAt(int i) { return null; }
     public List<ASTNode> getChildren() { return null; }
 
     private String id;
-
-	@Override
-	public String toFAEString() {
-		return String.format("(id '%s)", this.getId());
-	}
-
 }
 

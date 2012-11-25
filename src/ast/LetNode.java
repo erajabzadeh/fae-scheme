@@ -6,7 +6,7 @@ import interp.Visitor;
 
 public class LetNode extends SimpleNode {
 
-    public LetNode (final ASTNode bindings, final ASTNode body) {
+    public LetNode(final ASTNode bindings, final ASTNode body) {
         this.children.add(bindings);
         this.children.add(body);
     }
@@ -24,9 +24,9 @@ public class LetNode extends SimpleNode {
         return visitor.visit(this, e);
     }
 
-	@Override
-	public String toFAEString() {
-		return null;
-	}
+    @Override
+    public String toFAEString() {
+        return null;
+    }
 
 }
