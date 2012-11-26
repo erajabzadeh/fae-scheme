@@ -26,7 +26,7 @@ public class ClosureV implements VObject {
         return this.body;
     }
 
-    public Environment getEnv() {
+    public Environment getEnvironment() {
         return this.env;
     }
 
@@ -36,7 +36,7 @@ public class ClosureV implements VObject {
         return String.format("(closureV '%s %s %s",
                 this.getParam(),
                 this.getBody().toFAEString(),
-                this.getEnv().toFAEString()
+                this.getEnvironment().toFAEString()
                 );
     }
 

@@ -36,6 +36,18 @@ TOKEN:
     <ERROR : ~[]>
 }
 
+ASTNode begin():
+{
+    ASTNode root;
+}
+{
+    (
+        root = atom()
+    |   root = list()
+    )
+    { return root; }
+}
+    
 ASTNode atom():
 {
     Token token;
@@ -73,7 +85,7 @@ ASTNode list():
     )
     | <EOF>
     )
-  { return t == null ? node : t; }
+  { return node; }
 }
 
 ASTNode app():

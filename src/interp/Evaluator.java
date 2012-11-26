@@ -81,7 +81,7 @@ public class Evaluator implements Visitor {
                 node.toString(),
                 node.getParam().getId(),
                 node.getBody(),
-                this.scope == Scope.STATIC ? new Environment(e) : new Environment()); 
+                new Environment(e)); 
     }
 
     @Override
@@ -91,12 +91,12 @@ public class Evaluator implements Visitor {
         final VObject  arg = node.getArgument().accept(this, e);
 
         logger.info("Evaluating fun=" + fun + ", arg=" + arg);
-        return fun.getBody().accept(
-                this, 
-                new Environment(this.scope == Scope.STATIC ? fun.getEnv() : e) {{
-                    putIn(fun.getParam(), arg);
-                    logger.info("Environment=" + this.toFAEString());
-                }});
+        Environment callEnv = 
+            this.scope == Scope.STATIC ? new Environment(fun.getEnvironment()) : e;
+        callEnv.putIn(fun.getParam(), arg);
+        logger.info("Environment=" + callEnv.toFAEString());
+
+        return fun.getBody().accept(this, callEnv);
     }
 
     private void configure() {
