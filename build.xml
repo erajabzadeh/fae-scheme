@@ -27,8 +27,8 @@
     <target name="main" depends="compile" />
 
     <target name="run" depends="main">
-        <java classname="interp.Interpreter"
-            classpath="bin"/>
+        <java classname="interp.REPL" classpath="bin">
+        </java>
     </target>
 
     <path id="test.classpath">

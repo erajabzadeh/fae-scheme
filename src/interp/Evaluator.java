@@ -92,12 +92,11 @@ public class Evaluator implements Visitor {
 
         logger.info("Evaluating fun=" + fun + ", arg=" + arg);
         return fun.getBody().accept(
-			this, 
-			new Environment(this.scope == Scope.STATIC ? fun.getEnv() : e) {{
-            	putIn(fun.getParam(), arg);
-            	logger.info("Environment=" + this.toFAEString());
-        	}}
-		);
+                this, 
+                new Environment(this.scope == Scope.STATIC ? fun.getEnv() : e) {{
+                    putIn(fun.getParam(), arg);
+                    logger.info("Environment=" + this.toFAEString());
+                }});
     }
 
     private void configure() {
@@ -122,7 +121,6 @@ public class Evaluator implements Visitor {
         logger.setLevel(Level.INFO);
     }
 
-    private Environment currentEnv 	= new Environment();
-    private Scope scope 			= Scope.STATIC;
-    private final Logger logger		= Logger.getLogger(Evaluator.class.getName());
+    private Scope scope         = Scope.STATIC;
+    private final Logger logger	= Logger.getLogger(Evaluator.class.getName());
 }
