@@ -229,7 +229,7 @@ static private int jjMoveNfa_0(int startState, int curPos)
                      jjCheckNAddStates(0, 2);
                   else if (curChar == 46)
                      jjCheckNAdd(4);
-                  else if (curChar == 37)
+                  else if (curChar == 59)
                      jjCheckNAddTwoStates(1, 2);
                   break;
                case 11:

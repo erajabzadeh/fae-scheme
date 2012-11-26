@@ -81,7 +81,7 @@ public class Evaluator implements Visitor {
                 node.toString(),
                 node.getParam().getId(),
                 node.getBody(),
-                new Environment(e)); // TODO: should change for ds?
+                this.scope == Scope.STATIC ? new Environment(e) : new Environment()); 
     }
 
     @Override
@@ -91,17 +91,20 @@ public class Evaluator implements Visitor {
         final VObject  arg = node.getArgument().accept(this, e);
 
         logger.info("Evaluating fun=" + fun + ", arg=" + arg);
-        return fun.getBody().accept(this, new Environment(this.scope == Scope.STATIC ? fun.getEnv() : e) {{
-            putIn(fun.getParam(), arg);
-            logger.info("Environment=" + this.toFAEString());
-        }});
+        return fun.getBody().accept(
+			this, 
+			new Environment(this.scope == Scope.STATIC ? fun.getEnv() : e) {{
+            	putIn(fun.getParam(), arg);
+            	logger.info("Environment=" + this.toFAEString());
+        	}}
+		);
     }
 
     private void configure() {
 
         // scoping
-        if (JVMOptionParser.instance().isDefined("dynamic-scope") ||
-            JVMOptionParser.instance().isDefined("ds")) {
+        String ds = JVMOptionParser.instance().value("dynamic-scope");
+        if ("true".equals(ds) || "".equals(ds)) {
             this.scope = Scope.DYNAMIC;
             this.logger.info("Dynamic scoping");
         }
@@ -119,7 +122,7 @@ public class Evaluator implements Visitor {
         logger.setLevel(Level.INFO);
     }
 
-    private Environment currentEnv = new Environment();
-    private Scope scope = Scope.STATIC;
-    private final Logger logger = Logger.getLogger(Evaluator.class.getName());
+    private Environment currentEnv 	= new Environment();
+    private Scope scope 			= Scope.STATIC;
+    private final Logger logger		= Logger.getLogger(Evaluator.class.getName());
 }

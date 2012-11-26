@@ -19,5 +19,9 @@ public class JVMOptionParser {
         return System.getProperty(s) != null;
     }
 
+    public String value(final String s) {
+        return System.getProperty(s);
+    }
+
     private static final JVMOptionParser instance = new JVMOptionParser();
 }
