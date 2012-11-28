@@ -91,12 +91,12 @@ public class Evaluator implements Visitor {
         final VObject  arg = node.getArgument().accept(this, e);
 
         logger.info("Evaluating fun=" + fun + ", arg=" + arg);
-        Environment callEnv = 
+        Environment evaluationEnv = 
             this.scope == Scope.STATIC ? new Environment(fun.getEnvironment()) : e;
-        callEnv.putIn(fun.getParam(), arg);
-        logger.info("Environment=" + callEnv.toFAEString());
+        evaluationEnv.putIn(fun.getParam(), arg);
+        logger.info("Environment=" + evaluationEnv.toFAEString());
 
-        return fun.getBody().accept(this, callEnv);
+        return fun.getBody().accept(this, evaluationEnv);
     }
 
     private void configure() {
@@ -112,7 +112,7 @@ public class Evaluator implements Visitor {
             this.logger.info("Static scoping");
         }
 
-        // TODO: misc (logging level, ...)
+        // TODO: misc configs (logging level, ...)
     }
 
     private void setUpLogger() {

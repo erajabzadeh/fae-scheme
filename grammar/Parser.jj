@@ -66,7 +66,7 @@ ASTNode atom():
 
 ASTNode list():
 {
-    ASTNode  node = null, t = null;
+    ASTNode  node = null;
 }
 { 
     (
@@ -97,7 +97,7 @@ ASTNode app():
 {
     (
         (
-        f = list()
+          f = list()
         | f = atom()
         )
         {

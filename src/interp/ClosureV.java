@@ -33,7 +33,7 @@ public class ClosureV implements VObject {
     @Override
     public String toFAEString() {
         // right ) not necessary
-        return String.format("(closureV '%s %s %s",
+        return String.format("(closureV '%s %s %s)",
                 this.getParam(),
                 this.getBody().toFAEString(),
                 this.getEnvironment().toFAEString()
@@ -42,9 +42,9 @@ public class ClosureV implements VObject {
 
     @Override
     public String toString() {
-        return "[type=ClosureV, value=" +
-            this.getParam() + " -> " +
-            this.getBody() + "]";
+        return String.format("[type=ClosureV, value=%s -> %s]",
+                this.getParam(),
+                this.getBody());
     }
 
     private String id;

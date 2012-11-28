@@ -6,6 +6,7 @@ import ast.ASTNode;
 import ast.ASTPrinter;
 import trans.ASTTransformer;
 import trans.Let2LambdaTransformer;
+import util.*;
 
 public class REPL {
 
@@ -23,11 +24,16 @@ public class REPL {
     public static void main (String[] args) {
         printLogo();
 
+        JVMOptionParser optionParser= JVMOptionParser.instance();
         Parser parser               = new Parser (System.in);
         ASTTransformer transformer  = new Let2LambdaTransformer();
         Visitor astPrinter          = new ASTPrinter(System.out);
         Visitor repl                = new Evaluator();
         ASTNode root                = null;
+        
+        boolean transformLets = !optionParser.isDefined("no-let2lambda")
+                             || "false".equals(optionParser.value("no-let2lambda"));
+        // TODO: log transformLets
 
         while (true) {
             System.out.print("> ");
@@ -35,8 +41,10 @@ public class REPL {
                 if ((root = parser.list()) == null)
                     break;
 
-                // turn lets to lambda applications
-                root = transformer.transform(root);
+                if (transformLets) {
+                    // turn lets to lambda applications
+                    root = transformer.transform(root);
+                }
 
                 // print the AST
                 root.accept(astPrinter, null);

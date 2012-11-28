@@ -1,7 +1,7 @@
 (+ 2 3)
 (* 5 (/ 2.0 3))
-(let ((x 2)) (let ((y 3)) (+ x y)))
 ((lambda (x) (* x x)) 3)
+(let ((x 2)) (let ((y 3)) (+ x y)))
 (((lambda (x) (lambda (y) (- x y))) 2) 3)
 (let ((x 2)) (let ((x (+ x 3))) x))
 (let ((f (lambda (x) (+ x x)))) (f 3))

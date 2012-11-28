@@ -5,7 +5,7 @@ import java.util.*;
 public class Environment {
 
     public Environment () {
-        this.table = new HashMap<String, VObject>();
+        this (Collections.<String, VObject>emptyMap());
     }
 
     public Environment (final Environment env) {
@@ -13,7 +13,7 @@ public class Environment {
     }
 
     private Environment (final Map<String, VObject> table) {
-        this.table = new HashMap<String, VObject>(table);
+        this.table = new LinkedHashMap<String, VObject>(table);
     }
 
     public VObject lookUp (final String id) {
@@ -32,14 +32,20 @@ public class Environment {
     }
 
     public String toFAEString() {
-        StringBuilder sb = new StringBuilder();
+        if (this.table.isEmpty())
+            return "(mtSub)";
+
+        StringBuilder sb = new StringBuilder(),
+                      end= new StringBuilder();
 
         for (Map.Entry<String, VObject> e : this.table.entrySet()) {
-            sb.append("(aSub ");
-            sb.append("'" + e.getKey() + " ");
-            sb.append(e.getValue().toFAEString() + " ");
+            sb.append("(aSub ")
+              .append("'" + e.getKey() + " ")
+              .append(e.getValue().toFAEString() + " ");
+
+            end.append(")");
         }
-        sb.append("(mtSub))");
+        sb.append("(mtSub)").append(end.toString());
 
         return sb.toString();
     }

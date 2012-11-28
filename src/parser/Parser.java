@@ -52,7 +52,7 @@ public class Parser implements ParserConstants {
   }
 
   static final public ASTNode list() throws ParseException {
-    ASTNode  node = null, t = null;
+    ASTNode  node = null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case LPAR:
       jj_consume_token(LPAR);
