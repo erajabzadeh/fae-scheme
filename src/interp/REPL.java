@@ -35,10 +35,10 @@ public class REPL {
                              || "false".equals(optionParser.value("no-let2lambda"));
         // TODO: log transformLets
 
-        while (true) {
+        for (;;) {
             System.out.print("> ");
             try {
-                if ((root = parser.list()) == null)
+                if ((root = parser.begin()) == null)
                     break;
 
                 if (transformLets) {
@@ -56,12 +56,11 @@ public class REPL {
                 System.out.println();
 
             }
-            catch (ParseException pe) {
-                pe.printStackTrace();
-                parser.ReInit(System.in);
-            }
             catch (Exception e) {
                 e.printStackTrace();
+                parser.ReInit(System.in);
+            }
+            finally {
             }
         }
     }

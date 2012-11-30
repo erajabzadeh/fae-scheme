@@ -20,8 +20,8 @@ public class Evaluator implements Visitor {
     @Override
     public VObject visit(final AdditionNode node, Environment e) {
 
-        NumV lhs = (NumV) node.getLHS().accept(Evaluator.this, e),
-             rhs = (NumV) node.getRHS().accept(Evaluator.this, e);
+        NumV lhs = (NumV) node.getLHS().accept(this, e),
+             rhs = (NumV) node.getRHS().accept(this, e);
 
         return NumV.add(lhs, rhs);
     }
@@ -29,8 +29,8 @@ public class Evaluator implements Visitor {
     @Override
     public VObject visit(final SubtractionNode node, Environment e) {
 
-        NumV lhs = (NumV) node.getLHS().accept(Evaluator.this, e),
-             rhs = (NumV) node.getRHS().accept(Evaluator.this, e);
+        NumV lhs = (NumV) node.getLHS().accept(this, e),
+             rhs = (NumV) node.getRHS().accept(this, e);
 
         return NumV.sub(lhs, rhs);
     }
@@ -38,8 +38,8 @@ public class Evaluator implements Visitor {
     @Override
     public VObject visit(final MultiplicationNode node, Environment e) {
 
-        NumV lhs = (NumV) node.getLHS().accept(Evaluator.this, e),
-             rhs = (NumV) node.getRHS().accept(Evaluator.this, e);
+        NumV lhs = (NumV) node.getLHS().accept(this, e),
+             rhs = (NumV) node.getRHS().accept(this, e);
 
         return NumV.mul(lhs, rhs);
     }
@@ -47,8 +47,8 @@ public class Evaluator implements Visitor {
     @Override
     public VObject visit(final DivisionNode node, Environment e) {
 
-        NumV lhs = (NumV) node.getLHS().accept(Evaluator.this, e),
-             rhs = (NumV) node.getRHS().accept(Evaluator.this, e);
+        NumV lhs = (NumV) node.getLHS().accept(this, e),
+             rhs = (NumV) node.getRHS().accept(this, e);
 
         return NumV.div(lhs, rhs);
     }
@@ -81,7 +81,7 @@ public class Evaluator implements Visitor {
                 node.toString(),
                 node.getParam().getId(),
                 node.getBody(),
-                new Environment(e)); 
+                this.scope == Scope.STATIC ? new Environment(e) : new Environment()); 
     }
 
     @Override

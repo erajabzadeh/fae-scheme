@@ -31,7 +31,7 @@ public class Let2LambdaTransformer implements ASTTransformer {
             for (ListIterator<ASTNode> it = ((SimpleNode) root).getChildren().listIterator(); it.hasNext();)
                 it.set(this.transform(it.next()));
         }
-        // ignore any other type of node (unreachable)
+        // ignore any other type of node
 
         return root;
     }

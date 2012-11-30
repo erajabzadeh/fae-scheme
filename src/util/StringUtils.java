@@ -16,8 +16,8 @@ public class StringUtils {
         StringBuilder sb = new StringBuilder();
     
         for (String s : ss.subList(0, ss.size()-2)) {
-            sb.append(s);
-            sb.append(dovetail);
+            sb.append(s)
+              .append(dovetail);
         }
         sb.append(ss.get(ss.size()-1));
 

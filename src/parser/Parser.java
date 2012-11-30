@@ -22,7 +22,7 @@ public class Parser implements ParserConstants {
       jj_consume_token(-1);
       throw new ParseException();
     }
-      {if (true) return root;}
+        {if (true) return root;}
     throw new Error("Missing return statement in function");
   }
 
@@ -125,19 +125,18 @@ public class Parser implements ParserConstants {
     case 0:
     case LPAR:
       a = list();
-                         node.addChild(a);
       break;
     case INTEGER:
     case FLOAT:
     case SYMBOL:
       a = atom();
-                         node.addChild(a);
       break;
     default:
       jj_la1[5] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
+            node.addChild(a);
         {if (true) return node;}
     throw new Error("Missing return statement in function");
   }

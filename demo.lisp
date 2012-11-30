@@ -2,7 +2,7 @@
 (* 5 (/ 2.0 3))
 ((lambda (x) (* x x)) 3)
 (let ((x 2)) (let ((y 3)) (+ x y)))
-(((lambda (x) (lambda (y) (- x y))) 2) 3)
+(((lambda (x) (lambda (y) (- x y))) 7) 3)
 (let ((x 2)) (let ((x (+ x 3))) x))
 (let ((f (lambda (x) (+ x x)))) (f 3))
 (let ((f (lambda (x) (* x 3)))) (let ((f (lambda (y) (- y 1)))) (f 2)))
@@ -10,4 +10,4 @@
 ((lambda (x) (x x)) (lambda (x) x))
 
 ; dynamic vs. static scoping
-(let ((x 1)) (let ((f (lambda (y) (+ y x)))) (let ((x 2)) (f 3))))
+(let ((x 1)) (let ((f (lambda (y) (+ y x)))) (let ((x 12)) (f 3))))

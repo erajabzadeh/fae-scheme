@@ -45,7 +45,9 @@ ASTNode begin():
         root = atom()
     |   root = list()
     )
-    { return root; }
+    {
+        return root;
+    }
 }
     
 ASTNode atom():
@@ -104,9 +106,12 @@ ASTNode app():
             node.addChild(f); 
         }
         (
-            a = list() { node.addChild(a); }
-          | a = atom() { node.addChild(a); }
+            a = list() 
+          | a = atom()
         )
+        {
+            node.addChild(a);
+        }
     )
     {
         return node;

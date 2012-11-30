@@ -28,8 +28,7 @@ public class AdditionNode extends SimpleNode {
     public String toString() {
         return String.format("(+ %s %s)",
                 this.getLHS(),
-                this.getRHS()
-                );
+                this.getRHS());
     }
 
     @Override

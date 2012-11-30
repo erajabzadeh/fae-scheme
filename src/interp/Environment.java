@@ -45,7 +45,8 @@ public class Environment {
 
             end.append(")");
         }
-        sb.append("(mtSub)").append(end.toString());
+        sb.append("(mtSub)")
+          .append(end.toString());
 
         return sb.toString();
     }
