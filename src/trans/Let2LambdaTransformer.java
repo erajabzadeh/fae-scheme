@@ -12,6 +12,7 @@ public class Let2LambdaTransformer implements ASTTransformer {
     public ASTNode transform (ASTNode root) {
 
         if (root instanceof LetNode) {
+
             LetNode letNode   = (LetNode) root;
             ListNode bindings = letNode.getBindings();
 
@@ -28,7 +29,9 @@ public class Let2LambdaTransformer implements ASTTransformer {
             }};
         }
         else if (root instanceof SimpleNode) {
-            for (ListIterator<ASTNode> it = ((SimpleNode) root).getChildren().listIterator(); it.hasNext();)
+
+            ListIterator<ASTNode> it = ((SimpleNode) root).getChildren().listIterator();
+            while (it.hasNext())
                 it.set(this.transform(it.next()));
         }
         // ignore any other type of node

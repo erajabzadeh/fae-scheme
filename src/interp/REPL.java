@@ -28,7 +28,7 @@ public class REPL {
         Parser parser               = new Parser (System.in);
         ASTTransformer transformer  = new Let2LambdaTransformer();
         Visitor astPrinter          = new ASTPrinter(System.out);
-        Visitor repl                = new Evaluator();
+        Visitor evaluator           = new Evaluator();
         ASTNode root                = null;
         
         boolean transformLets = !optionParser.isDefined("no-let2lambda")
@@ -51,13 +51,12 @@ public class REPL {
                 System.out.println();
 
                 // evaluate the expression
-                VObject vo = root.accept(repl, new Environment());
-                System.out.println(vo);
-                System.out.println();
+                VObject vo = root.accept(evaluator, new Environment());
+                System.out.println(vo + "\n");
 
             }
             catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("Error: " + e.getMessage());
                 parser.ReInit(System.in);
             }
             finally {

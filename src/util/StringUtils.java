@@ -14,12 +14,13 @@ public class StringUtils {
             return ss.get(0);
 
         StringBuilder sb = new StringBuilder();
-    
-        for (String s : ss.subList(0, ss.size()-2)) {
-            sb.append(s)
-              .append(dovetail);
+        int n = ss.size();
+        for (String s : ss) {
+            sb.append(s);
+
+            if (--n > 0)
+              sb.append(dovetail);
         }
-        sb.append(ss.get(ss.size()-1));
 
         return sb.toString();
     }

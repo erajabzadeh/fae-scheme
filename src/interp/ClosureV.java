@@ -36,8 +36,7 @@ public class ClosureV implements VObject {
         return String.format("(closureV '%s %s %s)",
                 this.getParam(),
                 this.getBody().toFAEString(),
-                this.getEnvironment().toFAEString()
-                );
+                this.getEnvironment().toFAEString());
     }
 
     @Override

@@ -1,4 +1,4 @@
-<project name="compile with Lisp syntax" default="main">
+<project name="FAE Scheme" default="main">
     <property environment="env"/>
 
     <target name="clean">
@@ -31,24 +31,4 @@
         </java>
     </target>
 
-    <path id="test.classpath">
-        <pathelement location="bin"/>
-        <pathelement location="/usr/share/java/junit.jar"/>
-    </path>
-
-    <target name="buildtest">
-        <mkdir dir="bin"/>
-        <javac srcdir="test" destdir="bin"/>
-    </target>
-
-    <target name="test" depends="clean,compile,buildtest">
-        <junit fork="yes" haltonfailure="yes">
-            <classpath refid="test.classpath"/>
-            <formatter type="brief" usefile="false" />
-
-            <batchtest fork="yes">
-                <fileset dir="./test" includes="*Test.java"/>
-            </batchtest>
-        </junit>
-    </target>
 </project>

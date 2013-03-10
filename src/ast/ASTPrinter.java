@@ -10,8 +10,8 @@ public class ASTPrinter implements Visitor {
 
     private PrintStream printer;
 
-    public ASTPrinter(final PrintStream out) {
-        this.printer = out;
+    public ASTPrinter(final PrintStream printer) {
+        this.printer = printer;
     }
 
     @Override

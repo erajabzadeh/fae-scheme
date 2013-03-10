@@ -54,17 +54,17 @@ public class Evaluator implements Visitor {
     }
 
     @Override
-    public VObject visit(NumberNode node, Environment e) {
+    public VObject visit(final NumberNode node, Environment e) {
         return new NumV(null, node.getValue());
     }
 
     @Override
-    public VObject visit(SymbolNode node, Environment e) {
+    public VObject visit(final SymbolNode node, Environment e) {
         return e.lookUp(node.getId());
     }
 
     @Override
-    public VObject visit(LetNode node, Environment e) {
+    public VObject visit(final LetNode node, Environment e) {
         for (ASTNode child : node.getBindings().getChildren()) {
             e.putIn(
                     ((SymbolNode) child.getChildAt(0)).getId(),
@@ -76,7 +76,7 @@ public class Evaluator implements Visitor {
     }
 
     @Override
-    public VObject visit(LambdaNode node, Environment e) {
+    public VObject visit(final LambdaNode node, Environment e) {
         return new ClosureV(
                 node.toString(),
                 node.getParam().getId(),
@@ -85,7 +85,7 @@ public class Evaluator implements Visitor {
     }
 
     @Override
-    public VObject visit(ListNode node, Environment e) {
+    public VObject visit(final ListNode node, Environment e) {
 
         final ClosureV fun = (ClosureV) node.getFunction().accept(this, e);
         final VObject  arg = node.getArgument().accept(this, e);
